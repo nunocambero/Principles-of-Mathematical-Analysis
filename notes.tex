@@ -290,11 +290,67 @@ Let
         \[f'(x) = g(x) = \lim_{n \to \infty} f_n'(x).\]
 \end{enumerate}
 
-\subsection{Henri Lebesgue (1875-1941)}
+\subsubsection{Henri Lebesgue (1875-1941)}
 How can we count money in bills?
 \begin{enumerate}
     \item Add each amount as the bills come in. (Riemann)
     \item Make groups by denomination and count each group. (Lebesgue)
 \end{enumerate}
+
+This is the idea behind the Lebesgue integral.
+
+\subsection{Cantor Ternary Set}
+\vskip 1em
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    % Step 1
+    \draw[thick, blue] (0, 0) -- (10, 0);
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (0, -0.2) -- (10, -0.2) node[midway, below=10pt] {\textcolor{blue}{\([0, 1]\)}};
+
+    % Step 2
+    \draw[thick, red] (0, 0) -- (3.33, 0);
+    \draw[thick, red] (6.66, 0) -- (10, 0);
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (0, -0.5) -- (3.33, -0.5) node[midway, below=10pt] {\textcolor{red}{\([0, \frac{1}{3}]\)}};
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (6.66, -0.5) -- (10, -0.5) node[midway, below=10pt] {\textcolor{red}{\([\frac{2}{3}, 1]\)}};
+
+    % Step 3
+    \draw[thick, teal] (0, 0) -- (1.11, 0);
+    \draw[thick, teal] (2.22, 0) -- (3.33, 0);
+    \draw[thick, teal] (6.66, 0) -- (7.77, 0);
+    \draw[thick, teal] (8.88, 0) -- (10, 0);
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (0, -0.8) -- (1.11, -0.8) node[midway, below=10pt] {\textcolor{teal}{\([0, \frac{1}{9}]\)}};
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (2.22, -0.8) -- (3.33, -0.8) node[midway, below=10pt] {\textcolor{teal}{\([\frac{2}{9}, \frac{1}{3}]\)}};
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (6.66, -0.8) -- (7.77, -0.8) node[midway, below=10pt] {\textcolor{teal}{\([\frac{2}{3}, \frac{7}{9}]\)}};
+    \draw[decorate, decoration={brace, mirror, amplitude=10pt}] (8.88, -0.8) -- (10, -0.8) node[midway, below=10pt] {\textcolor{teal}{\([\frac{8}{9}, 1]\)}};
+
+    % Legend
+    \node[anchor=west] at (0, -2) {\textcolor{blue}{Step 1: \([0, 1]\)}};
+    \node[anchor=west] at (0, -2.5) {\textcolor{red}{Step 2: Remove middle third}};
+    \node[anchor=west] at (0, -3) {\textcolor{teal}{Step 3: Remove middle thirds of remaining}};
+\end{tikzpicture}
+\end{center}
+
+The Cantor set \(C\) is obtained by removing the open middle third of each remaining interval at each step. Then,
+\[C = [0, 1] \setminus J = \bigcup_{n=1}^{\infty} J_n,\]
+where \(J\) is the union of all removed intervals and \(J_n\) is the set remaining after \(n\) steps. For the measure of \(C\):
+\[\card{J} = \sum_{n=1}^{\infty} \card{J_n} = \sum_{n=1}^{\infty} \frac{2^{n-1}}{3^n} = \frac{1}{3} + \frac{2}{9} + \frac{4}{27} + \ldots = 1.\]
+Thus, the measure of the Cantor set \(C\) is:
+\[\card{C} = \card{[0, 1]} - \card{J} = 1 - 1 = 0.\]
+
+The Cantor set is not empty; it contains points such as 0, 1, and all endpoints of the removed intervals. It has the following properties:
+\begin{itemize}
+    \item It does not contain any intervals.
+    \item It is closed and bounded, hence compact.
+    \item It is a perfect set, which means it is closed and every point is an accumulation point.
+    \item It is uncountable, because there is a bijection between the Cantor set and the interval \([0, 1]\) using ternary representation:
+        \[\Phi: [0, 1] \to C,\]
+    where each \(x \in C\) is expressed in base 3, and has the form:
+        \[x = \sum_{n=1}^{\infty} \frac{a_n}{3^n}, \quad a_n \in \{0, 2\}.\]
+        Then, for each \(x \in [0, 1]\) we define:
+        \[x = \sum_{n=1}^{\infty} \frac{b_n}{2^n}, \quad b_n \in \{0, 1\}.\]
+        We can then define:
+        \[\Phi(x) = \sum_{n=1}^{\infty} \frac{2b_n}{3^n}.\]
+        Now, \(2b_n \in \{0, 2\}\) so \(\Phi(x) \in C\). This function is bijective, hence \(C\) is uncountable.
+\end{itemize}
 
 \end{document}
