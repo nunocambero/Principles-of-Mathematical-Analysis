@@ -106,8 +106,8 @@ Continuous functions on closed intervals are Riemann integrable.
 \subsection{The Lebesgue Integral}
 A bounded function \( f: [a, b] \to \mathbb{R} \) is said to be \textit{Lebesgue integrable} on \([a, b]\) if the set of points where \(f\) is discontinuous has zero measure. 
 
-A set $B \subset \mathbb{R}$ has \textit{measure zero} if for every $\epsilon > 0$, it can be covered by a countable collection of open intervals $\{(a_n, b_n)\}$ such that:
-\[B \subset \bigcup_{n=1}^{\infty} (a_n, b_n) \quad \text{and} \quad \sum_{n=1}^{\infty} (b_n - a_n) < \epsilon.\]
+A set $B \subset \mathbb{R}$ has \textit{measure zero} if for every $\varepsilon > 0$, it can be covered by a countable collection of open intervals $\{(a_n, b_n)\}$ such that:
+\[B \subset \bigcup_{n=1}^{\infty} (a_n, b_n) \quad \text{and} \quad \sum_{n=1}^{\infty} (b_n - a_n) < \varepsilon.\]
 
 \subsubsection{Example: Dirichlet Function}
 The Dirichlet function:
@@ -242,10 +242,10 @@ We need to define a new kind of convergence.
 A sequence of functions \(\{f_n\}_{n \in \mathbb{N}}\) converges punctually to a function \(f\) on \(Dom(f)\) if:
 \[\lim_{n \to \infty} f_n(x) = f(x), \quad \forall x \in Dom(f).\]
 
-\[\forall \epsilon > 0, \quad \forall x \in Dom(f), \quad \exists N (\epsilon, x) \in \mathbb{N} : n > N \implies |f_n(x) - f(x)| < \epsilon.\]
+\[\forall \varepsilon > 0, \quad \forall x \in Dom(f), \quad \exists N (\varepsilon, x) \in \mathbb{N} : n > N \implies |f_n(x) - f(x)| < \varepsilon.\]
 
 A sequence of functions \(\{f_n\}_{n \in \mathbb{N}}\) converges uniformly to a function \(f\) on \(Dom(f)\) if:
-\[\forall \epsilon, \quad \exists N : n > N \implies |f_n(x) - f(x)| < \epsilon, \quad \forall x \in Dom(f).\]
+\[\forall \varepsilon, \quad \exists N : n > N \implies |f_n(x) - f(x)| < \varepsilon, \quad \forall x \in Dom(f).\]
 
 \subsubsection*{Example}
 Let
@@ -352,5 +352,157 @@ The Cantor set is not empty; it contains points such as 0, 1, and all endpoints 
         \[\Phi(x) = \sum_{n=1}^{\infty} \frac{2b_n}{3^n}.\]
         Now, \(2b_n \in \{0, 2\}\) so \(\Phi(x) \in C\). This function is bijective, hence \(C\) is uncountable.
 \end{itemize}
+
+\section{Measurable Spaces and Topological Spaces}
+A \textit{Topological Space} $(X, \mathcal{T})$ is a collection $\cal{T}$ of subsets of a set $X$ in a topology such that:
+
+\begin{itemize}
+    \item The empty set $\emptyset$ and the whole set $X$ are in $\mathcal{T}$.
+    \item The union of any collection of sets in $\mathcal{T}$ is also in $\mathcal{T}$.
+    \item The intersection of any finite number of sets in $\mathcal{T}$ is also in $\mathcal{T}$.
+\end{itemize}
+
+\subsubsection*{Example: The Real Line}
+Let $X = \mathbb{R}$ and $\mathcal{T}$ be the collection of all open intervals $(a, b)$ where $a < b$ and $a, b \in \mathbb{R}$. Then $(\mathbb{R}, \mathcal{T})$ is a topological space.
+One can observe that if, for instance, we take the intersection of open intervals like:
+\[\bigcap_{n=1}^{\infty} \left(-\frac{1}{n}, \frac{1}{n}\right) = \{0\},\]
+which is not an open set, hence the requirement for finite intersections.
+\vskip 1em
+The sets in a topology $\mathcal{T}$ are called \textit{open sets}. For example, with $X = \bar{\mathbb{R}} = [-\infty, \infty]$, the open sets are all intervals of the form $(a, b)$ where $a < b$. Then, we say that $(\bar{\mathbb{R}}, \mathcal{T})$ is a topological space.
+
+\subsection{Metric Spaces}
+A set $X$ is a \textit{metric space} if there exists a distance function $d: X \times X \to [0, \infty)$, such that for all $x, y, z \in X$:
+\begin{itemize}
+    \item $d(x, y) = 0$ if and only if $x = y$ (identity of indiscernibles).
+    \item $d(x, y) = d(y, x)$ (symmetry).
+    \item $d(x, z) \leq d(x, y) + d(y, z)$ (triangle inequality).
+\end{itemize}
+
+An open ball of center $x \in X$ and radius $r > 0$ is defined as:
+\[B(x, r) = \{y \in X : d(x, y) < r\}.\]
+
+\subsection{Continuity}
+A function $f: [a, b] \subset \mathbb{R} \to \mathbb{R}$ is continuous at a point $x_0 \in [a, b]$ if for every $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $x \in [a, b]$:
+\[|x - x_0| < \delta \implies |f(x) - f(x_0)| < \varepsilon.\]
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xlabel = \(x\),
+        ylabel = {\(f(x)\)},
+        domain=0:4,
+        samples=100,
+        ymin=0, ymax=3,
+        xmin=0, xmax=4,
+        width=10cm,
+        height=6cm,
+        grid=both,
+    ]
+    \addplot[blue, thick] {(x-1)^3 -2*(x-1)^2+ 2};
+    \draw[dashed] (1.5,0) -- (1.5,1.6);
+    \draw[dashed] (2,0) -- (2,1);
+    \draw[dashed] (0,1) -- (2,1);
+    \draw[dashed] (0,1.6) -- (1.5,1.6);
+    \draw[fill=red] (1.75,1.3) circle (2pt) node[anchor=south west] {\( (x_0, f(x_0)) \)};
+    \node at (0.75, 0.8) {\(f(x_0) - \varepsilon\)};
+    \node at (0.4, 2) {\(f(x_0) + \varepsilon\)};
+    \node at (1.2, 0.3) {\(x_0 - \delta\)};
+    \node at (2.3, 0.3) {\(x_0 + \delta\)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\subsubsection{Neighborhoods}
+A \textit{neighborhood} of a set $A$ is any open set that contains $A$. If $(X, \mathcal{T}_X)$ and $(Y, \mathcal{T}_Y)$ are topological spaces, and $f: X \to Y$ is a mapping, then $f$ is continuous at a point $x_0 \in X$ if for every neighborhood $V$ of $f(x_0)$ in $Y$, there exists a neighborhood $U$ of $x_0$ in $X$ such that:
+\[f(U) \subset V.\]
+
+\subsubsection*{Observation}
+This is equivalent to the $\varepsilon$-$\delta$ definition on the $\mathbb{R}^n$ spaces.
+
+\subsubsection{Global Continuity}
+If $(X, \mathcal{T}_X)$ and $(Y, \mathcal{T}_Y)$ are topological spaces and $f: X \to Y$ is a mapping, then $f$ is globally continuous if:
+\[f^{-1}(V) = \{x \in X : f(x) \in V\} \in \mathcal{T}_X, \quad \forall V \in \mathcal{T}_Y.\]
+where $f^{-1}(V)$ is the preimage of $V$ under $f$.
+
+\begin{center}
+\begin{tikzpicture}
+    % Draw blobs for X and Y
+    \draw[thick, blue, fill=blue!10] (-2, -1.5) ellipse (2 and 1.5) node {};
+    \node at (-2, -3.5) {\(X\)};
+    \draw[thick, red, fill=red!10] (6, -1.5) ellipse (2 and 1.5) node {};
+    \node at (6, -3.5) {\(Y\)};
+
+    % Sub-blobs for T_X and T_Y
+    \draw[thick, blue!70, fill=blue!30] (-2, -2) ellipse (1 and 0.7) node {\(f^{-1}(V)\)};
+    \draw[thick, red!70, fill=red!30] (6, -1) ellipse (1 and 0.7) node {\(V\)};
+
+    % Arrows between X and Y
+    \draw[->, thick, in=150, out=30] (-0.25, -1) to (4.25, -1);
+    \draw[->, thick, in=220, out=330] (-1.5, -2.5) to (6, -1.5);
+    \node at (2, -0.75) {\(f\)};
+    \node at (2, -3) {\(\)};
+\end{tikzpicture}
+\end{center}
+
+So, $f$ is continuous if the preimage of every open set in $Y$ is an open set in $X$.
+
+\subsubsection{Proposition}
+If $(X, \mathcal{T}_X)$ and $(Y, \mathcal{T}_Y)$ are topological spaces and $f: X \to Y$ is a mapping, then $f$ is continuous if it is continuous at every point $x \in X$.
+
+\subsection{Measurable Spaces}
+A collection $\mathcal{A}$ of subsets of a space $X$ is a \textit{$\sigma$-algebra} if:
+\begin{enumerate}
+    \item $\emptyset \in \mathcal{A}$.
+    \item If $A \in \mathcal{A}$, then $A^C\in \mathcal{A}$.
+    \item If $\{A_j\}_{j \in \mathbb{N}}$ is a countable collection with each $A_j \in \mathcal{A}$, then:
+    \[\bigcup_{j=1}^{\infty} A_j \in \mathcal{A}\]
+\end{enumerate}
+
+The sets of $\mathcal{A}$ are called \textit{measurable sets}. The pair $(X, \mathcal{A})$ is called a \textit{measurable space}. If the third property holds for finite collections, then $\mathcal{A}$ is called an \textit{algebra}.
+
+\subsubsection*{Example}
+Is $\mathbb{R}$ with the topology of the usual open sets a $\sigma$-algebra?
+No, because
+\[(a, b) \in \mathcal{T} \text{ but } (a, b)^C = (-\infty, a] \cup [b, \infty) \notin \mathcal{T}.\]
+
+\subsubsection*{Example}
+The collection $\mathcal{P}(X)$, the power set of $X$, is a $\sigma$-algebra on $X$.
+
+On $X$, the collection $\{\emptyset, X\}$ is the smallest $\sigma$-algebra.
+
+\subsubsection{Properties of measurable spaces}
+If $(X, \mathcal{A})$ is a measurable space, then:
+\begin{enumerate}
+    \item If $\emptyset \in \mathcal{A}$, then $\emptyset ^C = X \in \mathcal{A}$.
+    \item If $A_1, A_2, \ldots, A_n \in \mathcal{A}$, then:
+    \[\bigcup_{j=1}^{n} A_j \in \mathcal{A}.\]
+    \item If $\{A_j\}_{j \in \mathbb{N}}$ is a countable collection with each $A_j \in \mathcal{A}$ then, following the second property of $\sigma$-algebras:
+    \[A_j^C \in \mathcal{A}, \quad \forall j \in \mathbb{N}.\]
+    Then, by the third property of $\sigma$-algebras:
+    \[\bigcup_{j=1}^{\infty} A_j^C \in \mathcal{A}.\]
+    Finally, by the second property again:
+    \[\left(\bigcup_{j=1}^{\infty} A_j^C\right)^C = \bigcap_{j=1}^{\infty} A_j \in \mathcal{A}.\]
+    \item If $A, B \in \mathcal{A}$, then:
+    \[A \setminus B = A \cap B^C \in \mathcal{A}.\]
+\end{enumerate}
+
+\subsubsection{Proposition}
+If $S \subset \mathcal{P}(X)$, then $\sigma(S)$ is called the $\sigma$-algebra generated by $S$:
+\[\sigma(S) = \mathcal{A}_S = \bigcap \{\mathcal{A} : \mathcal{A} \text{ is a } \sigma\text{-algebra and } S \subseteq \mathcal{A} \subseteq \mathcal{P}(X)\}.\]
+
+\subsubsection*{Example}
+Let $X = \{1, 2, 3, 4\}$ and $S = \{\{1\}, \{3, 4\}\}$. Then:
+\[\sigma(S) = \{\emptyset, X, \{1\}, \{2, 3, 4\}, \{3, 4\}, \{1, 2\}, \{2\}, \{1, 3, 4\}\}.\]
+
+\subsubsection{Borel $\sigma$-algebra}
+The Borel $\sigma$-algebra on $X$, denoted by $\mathcal{B}(X)$, is the $\sigma$-algebra generated by the open sets of $X$, 
+\[\mathcal{B}(X) = \sigma(\mathcal{T}(X)).\]
+Its elements are called \textit{Borel sets}.
+
+\subsubsection*{Example}
+The Borel $\sigma$-algebra on $\mathbb{R}$, $\mathcal{B}(\mathbb{R})$, contains all open intervals, closed intervals, countable sets, and complements of these sets. Examples of these Borel sets include:
+\[(a, b), \quad [a, b], \quad (a, b], \quad [a, b), \quad \mathbb{Q}, \quad \mathbb{R} \setminus \mathbb{Q}, \quad \{x\}, \quad \mathbb{R}, \quad \emptyset.\]
+
 
 \end{document}
