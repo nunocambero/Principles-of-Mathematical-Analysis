@@ -504,5 +504,196 @@ Its elements are called \textit{Borel sets}.
 The Borel $\sigma$-algebra on $\mathbb{R}$, $\mathcal{B}(\mathbb{R})$, contains all open intervals, closed intervals, countable sets, and complements of these sets. Examples of these Borel sets include:
 \[(a, b), \quad [a, b], \quad (a, b], \quad [a, b), \quad \mathbb{Q}, \quad \mathbb{R} \setminus \mathbb{Q}, \quad \{x\}, \quad \mathbb{R}, \quad \emptyset.\]
 
+\section{Measurable functions and Integration}
+A mapping $f: (X, \mathcal{A}) \to (Y, \mathcal{T})$, where $(X, \mathcal{A})$ is a measurable space and $(Y, \mathcal{T})$ is a topological space, is said to be a \textit{measurable function} if the preimage of every open set in $Y$ is a measurable set in $X$. Formally, for every open set $V \in \mathcal{T}_Y$, we have:
+\[f^{-1}(V) = \{x \in X : f(x) \in V\} \in \mathcal{A}.\]
+
+\subsubsection*{Observation}
+A mapping $f: (X, \mathcal{T}_X) \to (Y, \mathcal{T}_Y)$ between two topological spaces is continuous if 
+\[ \forall V \in \mathcal{T}_Y, \quad f^{-1}(V) \in \mathcal{T}_X.\]
+
+\subsubsection*{Example}
+If \( (X, \mathcal{A}) \) is a measurable space and \( A \in \mathcal{A} \), then the characteristic function \( \chi_A: X \to \{0, 1\} \) defined by:
+\[\chi_A(x) = \begin{cases} 1 & \text{if } x \in A, \\ 0 & \text{if } x \notin A, \end{cases}\]
+is a measurable function.
+\vskip 1em
+Now, let us consider $f : (X, \mathcal{A}) \to (\mathbb{R}, \mathcal{T})$. For any $V \in \mathcal{T}$, we have:
+\[V = (a, b) \quad \text{or} \quad V = (a, b) \cup (c, d) \cup \ldots\]
+Then, we can analyze the preimage of $V$ under $f$:
+\[f^{-1}(V) = \begin{cases}
+    A, & \text{if } 1 \in V \\
+    X \setminus A, & \text{if } 1 \notin V \\
+\end{cases}\]
+Since both $A$ and $X \setminus A$ are in $\mathcal{A}$, it follows that $\chi_A$ is a measurable function.
+
+\subsubsection*{Example}
+Let $X = \{1, 2, 3\}$ and $\mathcal{A} = \{\emptyset, X \}$. Define $f: X \to \mathbb{R}$ by:
+\[f(1) = f(2) = f(3) = 5.\]
+Then, for any open set $V \subset \mathbb{R}$:
+\[f^{-1}(V) = \begin{cases}
+    X, & \text{if } 5 \in V \\
+    \emptyset, & \text{if } 5 \notin V \\
+\end{cases}\]
+Since both $X$ and $\emptyset$ are in $\mathcal{A}$, $f$ is a measurable function.
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xlabel = \(x\),
+        ylabel = {\(\mathbb{R}\)},
+        ymin=0, ymax=7,
+        xmin=0, xmax=4,
+        width=10cm,
+        height=6cm,
+        grid=both,
+    ]
+    \addplot[only marks, mark=*, mark size=2pt] coordinates {
+        (1,5) (2,5) (3,5)
+    };
+    \draw[dashed] (0,5) -- (4,5);
+    \node at (2, 5.5) {\(f(x) = 5\)};
+    \draw[red, very thick] (0,4) -- (0,6) node[anchor=north west] {\(V\)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\subsection{Composition of Functions and Measurability}
+Consider two topological spaces \((Y, \mathcal{T}_Y)\) and \((Z, \mathcal{T}_Z)\), and a \textit{continuous} function \(g: Y \to Z\):
+\begin{enumerate}
+    \item If $(X, \mathcal{T}_X)$ is a \textit{topological space} and $f: X \to Y$ is \textit{continuous}, then the composition \(h = g \circ f: X \to Z\) is continuous.
+    \item If $(X, \mathcal{A})$ is a \textit{measurable space} and $f: X \to Y$ is \textit{measurable}, then the composition \(h = g \circ f: X \to Z\) is measurable.
+    \end{enumerate}
+\begin{center}
+\begin{tikzpicture}
+    % Draw blobs for X, Y, and Z
+        \draw[thick, blue, fill=blue!10] (-3, -2.5) ellipse (2 and 1.5) node {};
+        \node at (-2, -4.5) {\(X\)};
+        \draw[thick, orange, fill=orange!10] (2, -1.5) ellipse (2 and 1.5) node {};
+        \node at (2, -3.5) {\(Y\)};
+        \draw[thick, red, fill=red!10] (7, -2.5) ellipse (2 and 1.5) node {};
+        \node at (6, -4.5) {\(Z\)};
+        % Sub-blobs for T_X, T_Y, and T_Z
+        \draw[thick, orange!70, fill=orange!20] (2, -2) ellipse (1 and 0.7) node {\(g^{-1}(V)\)};
+        \draw[thick, blue!70, fill=blue!20] (-3, -2.5) ellipse (1.2 and 0.9) node {\(f^{-1}(g^{-1}(V))\)};
+        \draw[thick, red!70, fill=red!20] (7, -2.5) ellipse (1 and 0.7) node {\(V\)};
+        % Arrows between X, Y, and Z
+        \draw[->, thick, in=150, out=40] (-2, -1.5) to (0.5, -1);
+        \draw[->, thick, in=140, out=30] (3.5, -1) to (6, -1.5);
+        \draw[->, thick, in=220, out=320] (-2, -3.5) to (6, -3.5);
+        \node at (-1, -0.5) {\(f\)};
+        \node at (4.5, -0.5) {\(g\)};
+        \node at (2, -4.5) {\(h = g \circ f\)};
+        \draw[.-., thick] (-2, -2.5) to (1.2, -2);
+        \draw[fill=black] (-2, -2.5) circle (2pt); % Point at the end
+        \draw[fill=black] (1.2, -2) circle (2pt); % Point at the end
+        \draw[.-., thick] (2.8, -2) to (6.2, -2.5);
+        \draw[fill=black] (2.8, -2) circle (2pt); % Point at the end
+        \draw[fill=black] (6.2, -2.5) circle (2pt); % Point at the end
+\end{tikzpicture}
+\end{center}
+
+\begin{proof}
+Consider any open set \(V \in \mathcal{T}_Z\). Since \(g\) is continuous, the preimage \(g^{-1}(V) \in \mathcal{T}_Y\) (it is also an open set, now in \(\mathbb{T}_Y\)). And then, \(f^{-1}(g^{-1}(V)) \in \mathcal{T}_X\) (that is, it is an open set in \(\mathbb{T}_X\)).
+    Observe that the preimage of \(g^{-1}(V)\) under \(f\) is:
+    \[h^{-1}(V) = (g \circ f)^{-1}(V) = f^{-1}(g^{-1}(V)).\]
+
+    Now consider any open set \(V \in \mathcal{T}_Z\). Since \(g\) is continuous, the preimage \(g^{-1}(V) \in \mathcal{T}_Y\). And then, \(f^{-1}(g^{-1}(V)) \in \mathcal{A}\) (that is, it is a measurable set in \(\mathcal{A}\)).
+\end{proof}
+
+\subsubsection*{Example}
+On \(\mathbb{R}\) with \(\mathcal{T}\) the topology of the open sets, the Borel \(\sigma\)-algebra \(\mathcal{B}(\mathbb{R})\) is generated by the open sets of \(\mathbb{R}\). Then \((\mathbb{R}, \mathcal{B}(\mathbb{R}))\) is a measurable space.
+
+\subsection{Theorem: Characterizations of Measurable Functions}
+Given a measurable space \((X, \mathcal{A})\) and \(f : X \to \mathbb{R}\), the following statements are equivalent:
+\begin{enumerate}
+    \item \(f\) is measurable.
+    \item For every \(a \in \mathbb{R}\), the set \(\{x \in X : f(x) > a\} \in \mathcal{A}\).
+    \item For every \(a \in \mathbb{R}\), the set \(\{x \in X : f(x) \geq a\} \in \mathcal{A}\).
+    \item For every \(a \in \mathbb{R}\), the set \(\{x \in X : f(x) < a\} \in \mathcal{A}\).
+    \item For every \(a \in \mathbb{R}\), the set \(\{x \in X : f(x) \leq a\} \in \mathcal{A}\).
+    \item For every \(a, b \in \mathbb{R}\) with \(a < b\), the set \(\{x \in X : a < f(x) < b\} \in \mathcal{A}\).
+    \item The preimage of every open, closed, or Borel set in \(\mathbb{R}\) is in \(\mathcal{A}\).
+\end{enumerate}
+
+\subsection{Lemma}
+Given a measurable function \(f : (X, \mathcal{A}) \to (\mathbb{R}, \mathcal{T})\), the family of sets:
+\[\mathcal{A}_f = \{B \in \mathbb{R} : f^{-1}(B) \in \mathcal{A}\}\]
+is a \(\sigma\)-algebra on \(\mathbb{R}\), and it is called the \textit{image \(\sigma\)-algebra}. Then \(\mathcal{A}_f\) contains the Borel \(\sigma\)-algebra \(\mathcal{B}(\mathbb{R})\) because by definition, 
+\[(a, \infty) \in \mathcal{A}_f \quad \text{for all } a \in \mathbb{R}.\]
+
+\begin{proof}
+To show that \(\mathcal{A}_f\) is a \(\sigma\)-algebra, we need to verify the three properties:
+\begin{enumerate}
+    \item Since \(f^{-1}(\emptyset) = \emptyset\) and \(\emptyset \in \mathcal{A}\), we have \(\emptyset \in \mathcal{A}_f\).
+    \item If \(B \in \mathcal{A}_f\), then \(f^{-1}(B) \in \mathcal{A}\). Since \(\mathcal{A}\) is a \(\sigma\)-algebra, \(f^{-1}(B)^C = f^{-1}(B^C) \in \mathcal{A}\). Thus, \(B^C \in \mathcal{A}_f\).
+    \item If \(\{B_j\}_{j \in \mathbb{N}}\) is a countable collection with each \(B_j \in \mathcal{A}_f\), then \(f^{-1}(B_j) \in \mathcal{A}\) for all \(j\). Since \(\mathcal{A}\) is a \(\sigma\)-algebra, we have:
+    \[\bigcup_{j=1}^{\infty} f^{-1}(B_j) = f^{-1}\left(\bigcup_{j=1}^{\infty} B_j\right) \in \mathcal{A}.\]
+    Therefore, \(\bigcup_{j=1}^{\infty} B_j \in \mathcal{A}_f\).
+\end{enumerate}
+\end{proof}
+
+\subsection{Measure and Measure Space}
+A \textit{measure} on a measurable space \((X, \mathcal{A})\) is a function \(\mu: \mathcal{A} \to [0, \infty]\) such that:
+\begin{enumerate}
+    \item \(\mu(\emptyset) = 0\).
+    \item If \(\{A_j\}_{j \in \mathbb{N}}\) is a countable collection of pairwise disjoint sets in \(\mathcal{A}\), then:
+    \[\mu\left(\bigcup_{j=1}^{\infty} A_j\right) = \sum_{j=1}^{\infty} \mu(A_j).\]
+\end{enumerate}
+
+The triple \((X, \mathcal{A}, \mu)\) is called a \textit{measure space}.
+
+\subsubsection*{Observation}
+Also, there exist negative measures, where \(\mu: \mathcal{A} \to [-\infty, \infty]\), and complex measures, where \(\mu: \mathcal{A} \to \mathbb{C}\). Furthermore, if \(\mu(X) = 1\), then \((X, \mathcal{A}, \mu)\) is called a \textit{probability space}.
+
+\subsubsection*{Example}
+Consider the space \(X = \{1, 2, 3\}\) and the \(\sigma\)-algebra \(\mathcal{A} = \{\emptyset, X, \{1, 2\}, \{3\}\}\). Define the measure \(\mu: \mathcal{A} \to [0, \infty)\) by:
+\[\mu(\emptyset) = \mu(\{1, 2\}) = 0, \quad \mu(X) = \mu(\{3\}) = 1.\]
+Observe that \((X, \mathcal{A}, \mu)\) is a probability space. Also, the measure is countably additive since:
+\[\mu(X) = 1 = \mu(\{1, 2\}) + \mu(\{3\}) = 0 + 1 = 1.\]
+
+\subsubsection*{Observation}
+On any set \(X\) with the \(\sigma\)-algebra \(\mathcal{A}\), we can define a measure \(\mu: \mathcal{A} \to [0, \infty]\) using a weight function:
+\[p : X \to [0, \infty], \quad p(x) \text{ is the weight of } x.\]
+If \(A \in \mathcal{A}\), then:
+\[\mu(A) = \sum_{x \in A} p(x) := \sup_{\{x_1, \ldots, x_n\} \subseteq A} \sum_{j=1}^{n} p(x_j).\]
+
+\subsubsection*{Example}
+On \((\mathbb{N}, \mathcal{P}(\mathbb{N}))\), we can use the weight function \(p(x) = 1, \forall x \in \mathbb{N}\). Then, we obtain the \textit{counting measure}:
+\[\mu(A) = \sum_{x \in A} 1 = \card{A}.\]
+
+\subsubsection*{Example}
+Now let \(p(x) = 1\) for \(x = a\), and \(p(x) = 0\) for \(x \neq a\). Then, we obtain the \textit{Dirac-\(\delta\) measure} at \(a\):
+\[\mu(A) = \sum_{x \in A} p(x) = \begin{cases} 1 & \text{if } a \in A, \\ 0 & \text{if } a \notin A. \end{cases}\]
+
+\subsection{Theorem: Properties of Measures}
+Let \((X, \mathcal{A}, \mu)\) be a measure space. Then, 
+\begin{enumerate}
+    \item If \(A_1, A_2, \ldots, A_n \in \mathcal{A}\) disjoint, then:
+    \[\mu\left(\bigcup_{j=1}^{n} A_j\right) = \sum_{j=1}^{n} \mu(A_j).\]
+    \begin{proof}
+        Define \(\emptyset = A_{n+1}, A_{n+2}, \ldots\). Then, by the properties of measures:
+        \[\mu\left(\bigcup_{j=1}^{\infty} A_j\right) = \sum_{j=1}^{\infty} \mu(A_j) = \sum_{j=1}^{n} \mu(A_j) + \sum_{j=n+1}^{\infty} \mu(\emptyset) = \sum_{j=1}^{n} \mu(A_j) + 0 = \sum_{j=1}^{n} \mu(A_j).\]
+    \end{proof}
+    \item If \(A, B \in \mathcal{A}\) and \(A \subseteq B\), then:
+    \[\mu(A) \leq \mu(B).\]
+    And if \(\mu(A) < \infty\), then:
+    \[\mu(B \setminus A) = \mu(B) - \mu(A).\]
+    \begin{proof}
+        Since \(A \subseteq B\), we can write \(B = A \cup (B \setminus A)\) with \(A\) and \(B \setminus A\) disjoint. Then, by the properties of measures:
+        \[\mu(B) = \mu(A) + \mu(B \setminus A) \geq \mu(A).\]
+        If \(\mu(A) < \infty\), then rearranging gives:
+        \[\mu(B \setminus A) = \mu(B) - \mu(A).\]
+    \end{proof}
+    \item If \(\{A_j\}_{j \in \mathbb{N}}\) is a sequence of sets in \(\mathcal{A}\) (i.e., \(A_1 \subseteq A_2 \subseteq A_3 \subseteq \ldots\)), then:
+    \[\mu\left(\bigcup_{j=1}^{\infty} A_j\right) \leq \sum_{j=1}^{\infty} \mu(A_j).\]
+    \item If \(\{A_j\}_{j \in \mathbb{N}}\) is a sequence of increasing sets in \(\mathcal{A}\) (i.e., \(A_1 \subseteq A_2 \subseteq A_3 \subseteq \ldots\)), then:
+    \[\mu\left(\bigcup_{j=1}^{\infty} A_j\right) = \lim_{n \to \infty} \mu(A_n) = \sup_{n \in \mathbb{N}} \mu(A_n).\]
+    \item If \(\{A_j\}_{j \in \mathbb{N}}\) is a sequence of decreasing sets in \(\mathcal{A}\) (i.e., \(A_1 \supseteq A_2 \supseteq A_3 \supseteq \ldots\)) and \(\mu(A_1) < \infty\), then:
+    \[\mu\left(\bigcap_{j=1}^{\infty} A_j\right) = \lim_{n \to \infty} \mu(A_n) = \inf_{n \in \mathbb{N}} \mu(A_n).\]
+    
+\end{enumerate}
+
+
 
 \end{document}
