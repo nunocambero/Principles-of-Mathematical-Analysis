@@ -694,6 +694,122 @@ Let \((X, \mathcal{A}, \mu)\) be a measure space. Then,
     
 \end{enumerate}
 
+\subsubsection*{Example}
+Let \(X = \mathbb{N}\) and \(A_n = \{n, n+1, n+2, \ldots\}\). Consider the counting measure \(\mu\) on \(\mathcal{A} = \mathcal{P}(\mathbb{N})\). Then:
+\[A_1 \supset A_2 \supset A_3 \supset \ldots \quad \text{and} \quad \bigcap_{n=1}^{\infty} A_n = \emptyset.\]
+Thus:
+\[\mu\left(\bigcap_{n=1}^{\infty} A_n\right) = \mu(\emptyset) = 0.\]
+However, \(\mu(A_1) = \infty\), so the condition \(\mu(A_1) < \infty\) is necessary.
+
+\subsection{Completion of Measure Spaces}
+A property is said to hold \textit{almost everywhere} (a.e.) if it holds everywhere except on a set of measure zero. A set with measure zero is called a \textit{null set}. 
+
+\subsubsection*{Example}
+Consider the space \(X = \{1, 2, 3\}\) with the \(\sigma\)-algebra \(\mathcal{A} = \{\emptyset, X, \{1, 2\}, \{3\}\}\) and the measure \(\mu: \mathcal{A} \to [0, \infty)\) defined by:
+\[\mu(\emptyset) = \mu(\{1, 2\}) = 0, \quad \mu(X) = \mu(\{3\}) = 1.\]
+Then, the set \(\{1, 2\}\) is a null set since \(\mu(\{1, 2\}) = 0\), and \((X, \mathcal{A}, \mu)\) is a measure space.
+
+Let us define the functions \(f, g: X \to \mathbb{R}\) by:
+\[f(1) = f(2) = f(3) = 3, \quad g(x) = x.\]
+Then, \(f(x) = g(x)\) almost everywhere since they differ only on the null set \(\{1, 2\}\).
+However, \(f\) is measurable while \(g\) is not, because:
+\[g^{-1}((2, 4)) = \{3\} \in \mathcal{A},\]
+but
+\[g^{-1}((0, 2)) = \{1\} \notin \mathcal{A}.\]
+
+A measure space \((X, \mathcal{A}, \mu)\) is said to be \textit{complete} if every subset \(E\) of a null set \(N\) is measurable. 
+\[\forall N \in \mathcal{A} \text{ with } \mu(N) = 0, \quad \forall E \subseteq N, \quad E \in \mathcal{A}.\]
+
+\subsubsection*{Example}
+Consider \(X = \mathbb{N}\) with the \(\sigma\)-algebra \(\mathcal{A} = \mathcal{P}(\mathbb{N})\) and a counting measure \(\mu\). Since the only null set is \(\emptyset\), every subset of a null set is measurable. Thus, \((\mathbb{N}, \mathcal{P}(\mathbb{N}), \mu)\) is a complete measure space.
+\vskip 1em
+Now, consider a Dirac-\(\delta\) measure \(\mu\) at \(a \in \mathbb{R}\) on \(\mathcal{P}(\mathbb{R})\). The Dirac measure is defined by:
+\[
+\mu(E) = \begin{cases}
+1 & \text{if } a \in E, \\
+0 & \text{if } a \notin E.
+\end{cases}
+\]
+In this case, the null set is \(\emptyset\), and every subset of \(\emptyset\) is measurable. Thus, \((\mathbb{R}, \mathcal{P}(\mathbb{R}), \mu)\) is also a complete measure space.
+
+
+\subsection{Theorem: Completion of a Measure Space}
+Given a measure space \((X, \mathcal{A}, \mu)\), we can construct its completion \((X, \overline{\mathcal{A}}, \overline{\mu})\) as follows:
+\begin{enumerate}
+    \item Define \(\mathcal{N} = \{N \in \mathcal{A} : \mu(N) = 0\}\) as the collection of null sets.
+    \item Define \(\overline{\mathcal{A}} = \{A \cup N : A \in \mathcal{A}, N \in \mathcal{N}\}\) as the collection of sets formed by the union of a measurable set and a null set.
+    \item Define \(\overline{\mu}: \overline{\mathcal{A}} \to [0, \infty]\) by:
+    \[\overline{\mu}(A \cup N) = \mu(A), \quad \text{for } A \in \mathcal{A}, N \in \mathcal{N}.\]
+\end{enumerate}
+Then, \((X, \overline{\mathcal{A}}, \overline{\mu})\) is a complete measure space.
+Furthermore, \(\overline{\mathcal{A}}\) is the smallest \(\sigma\)-algebra containing \(\mathcal{A}\), and \(\overline{\mu}\) is a complete measure extending \(\mu\).
+
+\begin{proof}
+To show that \(\overline{\mathcal{A}}\) is a \(\sigma\)-algebra, we need to verify the three properties:
+\begin{enumerate}
+    \item Since \(\emptyset \in \mathcal{A}\) and \(\emptyset \in \mathcal{N}\), we have \(\emptyset = \emptyset \cup \emptyset \in \overline{\mathcal{A}}\).
+    \item If \(B = A \cup N \in \overline{\mathcal{A}}\) with \(A \in \mathcal{A}\) and \(N \in \mathcal{N}\), then:
+    \[B^C = (A \cup N)^C = A^C \cap N^C = (A^C \cap X) \cup (A^C \cap N^C).\]
+    Since \(A^C \in \mathcal{A}\) and \(N^C \in \mathcal{A}\), we have \(B^C \in \overline{\mathcal{A}}\).
+    \item If \(\{B_j\}_{j \in \mathbb{N}}\) is a countable collection with each \(B_j = A_j \cup N_j \in \overline{\mathcal{A}}\), where \(A_j \in \mathcal{A}\) and \(N_j \in \mathcal{N}\), then:
+    \[
+    \bigcup_{j=1}^{\infty} B_j = \bigcup_{j=1}^{\infty} (A_j \cup N_j) = \left(\bigcup_{j=1}^{\infty} A_j\right) \cup \left(\bigcup_{j=1}^{\infty} N_j\right).
+    \]
+    Since \(\bigcup_{j=1}^{\infty} A_j \in \mathcal{A}\) and \(\bigcup_{j=1}^{\infty} N_j \in \mathcal{N}\), we have \(\bigcup_{j=1}^{\infty} B_j \in \overline{\mathcal{A}}\). 
+\end{enumerate}
+Now we need to check wether \(\overline{\mu}\) is well-defined on \(\overline{\mathcal{A}}\) and satisfies the properties of a measure:
+\begin{enumerate}
+    \item For any \(B = A \cup N \in \overline{\mathcal{A}}\) with \(A \in \mathcal{A}\) and \(N \in \mathcal{N}\), we have:
+    \[\overline{\mu}(B) = \overline{\mu}(A \cup N) = \mu(A) \geq 0.\]
+    \item If \(\{B_j\}_{j \in \mathbb{N}}\) is a countable collection of pairwise disjoint sets in \(\overline{\mathcal{A}}\), where \(B_j = A_j \cup N_j\) with \(A_j \in \mathcal{A}\) and \(N_j \in \mathcal{N}\), then:
+    \[\bigcup_{j=1}^{\infty} B_j = \left(\bigcup_{j=1}^{\infty} A_j\right) \cup \left(\bigcup_{j=1}^{\infty} N_j\right).\]
+    Since the \(B_j\) are pairwise disjoint, the \(A_j\) are also pairwise disjoint. Thus, by the properties of measures:
+    \[\overline{\mu}\left(\bigcup_{j=1}^{\infty} B_j\right) = \mu\left(\bigcup_{j=1}^{\infty} A_j\right) = \sum_{j=1}^{\infty} \mu(A_j) = \sum_{j=1}^{\infty} \overline{\mu}(B_j).\]
+\end{enumerate}
+\end{proof}
+
+\subsubsection*{Example}
+Consider the space \(X = \{1, 2, 3\}\) with the \(\sigma\)-algebra \(\mathcal{A} = \{\emptyset, X, \{1, 2\}, \{3\}\}\) and the measure \(\mu: \mathcal{A} \to [0, \infty)\) defined by:
+\[\mu(\emptyset) = \mu(\{1, 2\}) = 0, \quad \mu(X) = \mu(\{3\}) = 1.\]
+Then, the null set is \(\mathcal{N} = \{\emptyset, \{1, 2\}\}\). The completion of the measure space is given by:
+\[\overline{\mathcal{A}} = \{A \cup N : A \in \mathcal{A}, N \in \mathcal{N}\} = \{\emptyset, \{1\}, \{2\}, \{1, 2\}, \{3\}, \{1, 3\}, \{2, 3\}, X\} = \mathcal{P}(X).\]
+The completed measure \(\overline{\mu}: \overline{\mathcal{A}} \to [0, \infty)\) is defined by:
+\[\overline{\mu}(\emptyset) = \overline{\mu}(\{1\}) = \overline{\mu}(\{2\}) = \overline{\mu}(\{1, 2\}) = 0, \quad \overline{\mu}(\{3\}) = \overline{\mu}(\{1, 3\}) = \overline{\mu}(\{2, 3\}) = \overline{\mu}(X) = 1.\]
+
+\subsection{Semi-algebra}
+A collection \(\mathcal{E} \subseteq \mathcal{P}(X)\) is called a \textit{semi-algebra} if:
+\begin{enumerate}
+    \item \(\emptyset \in \mathcal{E}\).
+    \item If \(A, B \in \mathcal{E}\), then \(A \cap B \in \mathcal{E}\).
+    \item If \(A \in \mathcal{E}\), then \(A^C = B_1 \cup B_2 \cup \ldots \cup B_n\) where \(B_j \in \mathcal{E}\) for \(j = 1, 2, \ldots, n\).
+\end{enumerate}
+
+\subsubsection*{Example}
+On \(\mathbb{R}\), the collection of all intervals of the form:
+\[(a, b), \quad [a, b), \quad (a, b], \quad [a, b], \quad (-\infty, a), \quad (-\infty, a], \quad (a, \infty), \quad [a, \infty),\]
+where \(a, b \in \mathbb{R}\), is a semi-algebra.
+\vskip 1em
+A set function \(\mu: X \to [0, \infty]\) is \textit{\(\sigma\)-finite} if 
+\[X = \bigcup_{j=1}^{\infty} X_j, \quad X_j \in X, \quad \mu(X_j) < \infty \text{ for all } j.\]
+and we say that \(X\) is \(\sigma\)-finite with respect to \(\mu\).
+
+\subsection{Operations with infinity}
+The following conventions are used when dealing with infinity in measure theory:
+\begin{itemize}
+    \item \(a + \infty = \infty + a = \infty\) for any \(a \in [0, \infty]\).
+    \item \(a \cdot \infty = \infty \cdot a = \infty\) for any \(a \in (0, \infty]\).
+    \item \(0 \cdot \infty = \infty \cdot 0 = 0\).
+    \item Cancellation law: If \(a, b \in [0, \infty]\) and \(c \in (0, \infty]\), then:
+    \[a + c = b + c \implies a = b.\]
+    \item If \(a, b \in [0, \infty]\) and \(c \in (0, \infty)\), then:
+    \[a \cdot c = b \cdot c \implies a = b.\]
+\end{itemize}
+
+\subsection{Caratheodory-Hopf's Theorem}
+Consider a semi-algebra \(\mathcal{E}\) on \(X\) and a countably additive function \(\mu_0: \mathcal{E} \to [0, \infty]\). We define for all \(A \in \mathcal{P}(X)\):
+\[\mu^*(A) = \inf\left\{\sum_{j=1}^{\infty} \mu_0(E_j) : A \subseteq \bigcup_{j=1}^{\infty} E_j, \quad E_j \in \mathcal{E}\right\}.\]
+
+
 
 
 \end{document}
