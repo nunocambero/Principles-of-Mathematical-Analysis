@@ -920,6 +920,121 @@ This unique measure \(m\) is called the \textit{Lebesgue measure} on \(\mathbb{R
     \end{tikzpicture}
 \end{center}
 
+\subsubsection{Theorem: Heine-Borel}
+On \(\mathbb{R}^n\), a set \(K\) is compact if and only if it is closed and bounded. In general, on a topological space, a set is compact if for any \(\{B_j\}_{j \in A}\) such that:
+\[K \subset \bigcup_{j \in A} B_j,\]
+there exists a finite subcover \(\{B_{j_1}, B_{j_2}, \ldots, B_{j_n}\}\) such that:
+\[K \subset \bigcup_{i=1}^{n} B_{j_i}.\]
 
+A measure \(\mu\) on a topological space with its Borel \(\sigma\)-algebra is called a \textit{Radon measure} if it is finite on compact sets and outer regular on Borel sets.
+
+\subsubsection*{Observation}
+The Lebesgue measure \(m\) on \(\mathbb{R}^n\) is a Radon measure. What are the other Radon measures on \(\mathbb{R}^n\)?
+
+\subsubsection{Theorem: Characterization of Radon Measures on \(\mathbb{R}^n\)}
+The Lebesgue measure \(m\) is the unique translation-invariant Radon measure on \(\mathbb{R}^n\) (up to a multiplicative constant).  
+\begin{enumerate}
+    \item \(\mathbb{R}^n, \mathcal{M}, m)\) is translation-invariant, i.e., for any \(A \in \mathcal{M}\) and any \(x \in \mathbb{R}^n\):
+    \[m(A + x) = m(A),\]
+    where \(A + x = \{a + x : a \in A\}\).
+    \item If \(\mu : \mathcal{M} \to [0, \infty]\) is another translation-invariant Radon measure on \(\mathbb{R}^n\), then there exists a constant \(k > 0\) such that:
+    \[\mu(A) = k \cdot m(A) \quad \text{for all } A \in \mathcal{M}.\]
+\end{enumerate}
+
+\subsection{Lebesgue-Stieltjes Measure}
+Observe that a measure \(\mu\) on \(\mathcal{B}(\mathbb{R})\) satisfies:
+\[\mu((-\infty, t]) \quad t \in \mathbb{R} \quad \text{is an increasing function and}\]
+\[\mu((a, b]) = \mu((-\infty, b] \setminus (-\infty, a]) = \mu((-\infty, b]) - \mu((-\infty, a]) \quad \text{for } a < b.\]
+
+We define \(g(t) = \mu((-\infty, t])\) for \(t \in \mathbb{R}\). Then \(g\) is an increasing function and we have the following theorem:
+\subsubsection{Theorem: Lebesgue-Stieltjes Measure}
+Let \(g: \mathbb{R} \to \mathbb{R}\) be an increasing function. Then, there exists a unique Radon measure \(\mu_g\) on \(\mathcal{B}(\mathbb{R})\) such that
+\[\mu_g((a, b]) = g(b^+) - g(a^+) \quad \text{for all } a < b.\]
+where:
+\[g(t^+) = \lim_{x \to t^+} g(x) \quad \text{and} \quad g(t^-) = \lim_{x \to t^-} g(x).\]
+
+The measure \(\mu_g\) is called the \textit{Lebesgue-Stieltjes measure} with \textit{distribution function} \(g\).
+
+\subsubsection*{Observation}
+If we consider \(g\) a right-continuous increasing function, then:
+\[g(t^+) = \lim_{x \to t^+} g(x) = g(t).\]
+Thus, in this case:
+\[\mu_g((a, b]) = g(b) - g(a) \quad \text{for all } a < b.\]
+
+\subsubsection*{Example}
+Consider the function
+\[g(x) = \begin{cases}
+    x & \text{if } x < 0, \\
+    2x + 1 & \text{if } 0 \leq x < 1, \\
+    4 & \text{if } 1 \leq x \\
+\end{cases}\]
+Then, \(g\) is an increasing right-continuous function. Then, it defines a Lebesgue-Stieltjes measure \(\mu_g\). For example:
+\[\mu_g((0, 2]) = g(2^+) - g(0^+) = 4 - 1 = 3.\]
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = \(x\),
+            ylabel = {\(g(x)\)},
+            ymin = -1, ymax = 5,
+            xmin = -1, xmax = 5,
+            grid = both,
+            width=10cm,
+            height=6cm
+        ]
+        \addplot[
+            domain=-1:0, 
+            samples=100, 
+            color=blue,
+            thick
+        ]{x};
+        \addplot[
+            domain=0:1, 
+            samples=100, 
+            color=blue,
+            thick
+        ]{2*x + 1};
+        \addplot[
+            domain=1:5, 
+            samples=100, 
+            color=blue,
+            thick
+        ]{4};
+        % Add the jump at x=1
+        \addplot[only marks, mark=*, color=blue] coordinates {(1,4)};
+        \addplot[only marks, mark=*, color=blue] coordinates {(0,1)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsubsection*{Observation}
+If \(\mu\) is a Radon measure on \(\mathcal{B}(\mathbb{R})\), then there exists a unique increasing function \(g: \mathbb{R} \to \mathbb{R}\) such that \(\mu = \mu_g\).
+
+\subsubsection{Properties of Lebesgue-Stieltjes Measure}
+Let \(g: \mathbb{R} \to \mathbb{R}\) be an increasing function and \(\mu_g\) be the associated Lebesgue-Stieltjes measure. Then:
+\begin{enumerate}[label=\alph*)]
+    \item \(\mu_g\left(\{x\}\right) = g(x^+) - g(x^-)\) for all \(x \in \mathbb{R}\).
+    \item \(g\) is continuous at \(x\) if and only if \(\mu_g(\{x\}) = 0\).
+    \item \(\mu_g \left([a, b]\right) = g(b^+) - g(a^-)\) for all \(a < b\).
+    \item \(\mu_g \left((a, b)\right) = g(b^-) - g(a^+)\) for all \(a < b\).
+    \item \(\mu_g \left([a, b)\right) = g(b^-) - g(a^-)\) for all \(a < b\).
+    \item If \(I \subset \mathbb{R}\) is an interval, then \(\mu_g(I) = 0\) if and only if \(g\) is constant on \(I\).
+\end{enumerate}
+
+\subsubsection*{Example}
+Consider the function in the previous example:
+\[g(x) = \begin{cases}
+    x & \text{if } x < 0, \\
+    2x + 1 & \text{if } 0 \leq x < 1, \\
+    4 & \text{if } 1 \leq x \\
+\end{cases}\]
+Then, the associated Lebesgue-Stieltjes measure \(\mu_g\) satisfies:
+\begin{itemize}
+    \item \(\mu_g(\{0\}) = g(0^+) - g(0^-) = 1 - 0 = 1\).
+    \item \(\mu_g(\{1\}) = g(1^+) - g(1^-) = 4 - 3 = 1\).
+    \item \(\mu_g((0, 1)) = g(1^-) - g(0^+) = 3 - 1 = 2\).
+    \item \(\mu_g([0, 1]) = g(1^+) - g(0^-) = 4 - 0 = 4\).
+\end{itemize}
 
 \end{document}
