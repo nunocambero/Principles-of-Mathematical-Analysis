@@ -1,4 +1,5 @@
 \documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
 
 % Increase main memory size
 \usepackage{etex}
@@ -1037,4 +1038,293 @@ Then, the associated Lebesgue-Stieltjes measure \(\mu_g\) satisfies:
     \item \(\mu_g([0, 1]) = g(1^+) - g(0^-) = 4 - 0 = 4\).
 \end{itemize}
 
+\section{Integration}
+A \textit{simple function} on a measure space \((X, \mathcal{A}, \mu)\) is a \textit{measurable} function whose change consists of a finite number of values. Then, it is of the form:
+\[s(x) = \sum_{j=1}^{n} c_j \chi_{A_j}(x),\]
+where \(c_j \in [0, \infty)\), \(A_j \in \mathcal{A}\) for \(j = 1, 2, \ldots, n\), and \(\chi_{A_j}\) is the characteristic function of \(A_j\).
+
+\subsubsection*{Example}
+\[s(x) = \chi_{[a, b]} (x) \text{ is simple, and so is } s(x) = \chi_{\mathbb{Q}} (x).\]
+
+\subsection{Theorem: Approximation of measurable functions}
+For any measurable function \(f: X \to [0, \infty]\), there exists a sequence of simple functions \(\{s_n\}_{n=1}^{\infty}\) such that:
+\begin{enumerate}
+    \item \(0 \leq s_n(x) \leq s_{n+1}(x) \leq f(x)\) for all \(x \in X\).
+    \item \(\lim_{n \to \infty} s_n(x) = f(x)\) for all \(x \in X\).
+\end{enumerate}
+\begin{proof}
+For each \(n \in \mathbb{N}\), define the simple function \(s_n: X \to [0, \infty)\) by:
+\[s_n(x) = \sum_{j=0}^{n2^n - 1} \frac{j}{2^n} \chi_{A_{j,n}}(x) + n \chi_{A_{n,n}}(x),\]
+where:
+\[A_{j,n} = \left\{x \in X : \frac{j}{2^n} \leq f(x) < \frac{j+1}{2^n}\right\} \text{ for } j = 0, 1, \ldots, n2^n - 1,\]
+and
+\[A_{n,n} = \{x \in X : f(x) \geq n\}.\]
+Then, it is easy to verify that the sequence \(\{s_n\}_{n=1}^{\infty}\) satisfies the required properties.  
+\end{proof}
+
+\subsection{Integral of a simple function}
+Let \(s: X \to [0, \infty)\) be a simple function of the form:
+\[s(x) = \sum_{j=1}^{n} c_j \chi_{A_j}(x),\]
+where \(c_j \in [0, \infty)\), \(A_j \in \mathcal{A}\) for \(j = 1, 2, \ldots, n\). Then, the integral of \(s\) with respect to the measure \(\mu\) is defined as:
+\[\int_X s \,d\mu = \sum_{j=1}^{n} c_j \mu(A_j).\]
+
+The itegral of a positive measurable function \(f: X \to [0, \infty]\) is defined as:
+\[\int_X f \,d\mu = \sup\left\{\int_X s \,d\mu : 0 \leq s \leq f, s \text{ is simple}\right\}.\]
+
+This integral is called the \textit{Lebesgue integral} of \(f\) with respect to the measure \(\mu\).
+
+\subsubsection*{Example}
+Consider the Dirichlet function of \(\mathbb{Q}\), defined as:
+\[f(x) = \begin{cases}
+    1 & \text{if } x \in \mathbb{Q}, \\
+    0 & \text{if } x \notin \mathbb{Q}.
+\end{cases}\]
+Then, we can compute the Lebesgue integral of \(f\) with respect to the Lebesgue measure \(m\):
+\[\int_{\mathbb{R}} \chi_{\mathbb{Q}} \,dm = m(\mathbb{Q})\cdot 1 + m(\mathbb{I}) \cdot 0 = 0.\]
+
+\subsection{Properties of the Lebesgue Integral}
+Let \(f, g: X \to [0, \infty]\) be measurable functions and \(A, B, E \in \mathcal{A}\). Then:
+\begin{enumerate}
+    \item \[ \int_E f \,d\mu = \int_X f \chi_E \,d\mu.\]
+    \begin{proof}
+        With \(f\) measurable, \(\exists\{s_n\}_{n = 1}^{\infty}\) simple functions such that \(s_n \nearrow f\). Consider \(f(x) \chi_E(x)\), then \(\{r_n(x) = s_n(x) \chi_E(x)\}_{n = 1}^{\infty}\) is a sequence of simple functions such that \(r_n \nearrow f \chi_E\). Thus:
+        \[\int_X f \chi_E \,d\mu = \lim_{n \to \infty} \int_X r_n \,d\mu = \lim_{n \to \infty} \int_X s_n \chi_E \,d\mu = \lim_{n \to \infty} \int_E s_n \,d\mu = \int_E f \,d\mu.\]
+    \end{proof}
+    \item \[ \int_E (f + g) \,d\mu = \int_E f \,d\mu + \int_E g \,d\mu.\]
+    \begin{proof}
+        Let \(\{s_n\}_{n=1}^{\infty}\) and \(\{t_n\}_{n=1}^{\infty}\) be sequences of simple functions such that \(s_n \nearrow f\) and \(t_n \nearrow g\). Then, \(s_n + t_n \nearrow f + g\). Thus:
+        \[\int_E (f + g) \,d\mu = \lim_{n \to \infty} \int_E (s_n + t_n) \,d\mu = \lim_{n \to \infty} \left(\int_E s_n \,d\mu + \int_E t_n \,d\mu\right) = \int_E f \,d\mu + \int_E g \,d\mu.\]
+    \end{proof}
+    \item \[\int_E \lambda f \,d\mu = \lambda \int_E f \,d\mu \quad \text{for any } \lambda \in \mathbb{R}.\]
+    \item If \(f(x) \leq g(x)\) for all \(x \in E\), then:
+    \[\int_E f \,d\mu \leq \int_E g \,d\mu.\]
+    \item If \(A \subseteq B\), then:
+    \[\int_A f \,d\mu \leq \int_B f \,d\mu.\]
+    \item If \(f = 0\) almost everywhere on \(E\), that is, \(\mu(\{x \in E : f(x) \neq 0\}) = 0\), then:
+    \[\int_E f \,d\mu = 0.\]
+    \item If \(\mu(E) = 0\), then:
+    \[\int_E f \,d\mu = 0.\]
+    \item If \(A \cap B = \emptyset\), then:
+    \[\int_{A \cup B} f \,d\mu = \int_A f \,d\mu + \int_B f \,d\mu.\]
+    \item If \(f = g\) almost everywhere on \(X\), then:
+    \[\int_X f \,d\mu = \int_X g \,d\mu.\]
+\end{enumerate}
+
+\subsection{General Functions}
+Given a function \(f: X \to [-\infty, \infty]\), we can write it as:
+\[f = f^+ - f^-,\]
+where:
+\[f^+(x) = \max\{f(x), 0\} \quad \text{and} \quad f^-(x) = \max\{-f(x), 0\}.\]
+Both \(f^+\) and \(f^-\) are non-negative measurable functions.
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = \(x\),
+            ylabel = {\(f(x)\)},
+            ymin = -1, ymax = 3,
+            xmin = -1, xmax = 3,
+            width=10cm,
+            height=6cm
+        ]
+        \addplot[
+            domain=-1:3, 
+            samples=100, 
+            color=blue,
+            thick thick
+        ]{0.5*sin(deg(x)) + 0.5*cos(deg(2*x)) + 0.3*sin(deg(3*x))};
+        % f^+
+        \addplot[
+            domain=-1:3, 
+            samples=100, 
+            color=red,
+            thick
+        ]{max(0, 0.5*sin(deg(x)) + 0.5*cos(deg(2*x)) + 0.3*sin(deg(3*x)))};
+        % f^-
+        \addplot[
+            domain=-1:3, 
+            samples=100, 
+            color=green,
+            thick
+        ]{max(0, -(0.5*sin(deg(x)) + 0.5*cos(deg(2*x)) + 0.3*sin(deg(3*x))))};
+        % Add legend
+        \legend{\(f(x)\), \(f^+(x)\), \(f^-(x)\)}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+Then, we define the integral of \(f\) as:
+\[\int_X f \,d\mu = \int_X f^+ \,d\mu - \int_X f^- \,d\mu,\]
+provided that at least one of the integrals on the right-hand side is finite.
+
+\subsection{Lebesgue Space}
+On a measure space \((X, \mathcal{A}, \mu)\), the \textit{Lebesgue space} \(L^1(X, \mu)\) is defined as:
+\[L^1(X, \mu) = \left\{f: X \to \mathbb{R} \text{ measurable} : \int_X |f| \,d\mu < \infty\right\}.\]
+The elements of \(L^1(X, \mu)\) are equivalence classes, where two functions \(f\) and \(g\) are considered equivalent if they are equal almost everywhere, i.e., \(\mu(\{x \in X : f(x) \neq g(x)\}) = 0\). These functions are called \textit{Lebesgue-integrable functions}.
+
+\subsubsection*{Example}
+With the Lebesgue measure \(m\) on \(\mathbb{R}\), the function \(f(x) = \dfrac{1}{x^2}\) is in \(L^1([1, \infty], m)\), but not in \(L^1([0, 1], m)\).
+
+\subsubsection*{Example}
+On \(\mathbb{N}\), consider the counting measure \(\mu\) defined by \(\mu(A) = |A|\) for any \(A \subseteq \mathbb{N}\). Then, \(L^1(\mathbb{N}, \mu)\) is the space formed by functions \(f: \mathbb{N} \to \mathbb{R}\) such that:
+\[\sum_{n=1}^{\infty} |f(n)| < \infty.\]
+
+So \(f\) is such that the series \(\sum_{n=1}^{\infty} f(n)\) is absolutely convergent (i.e., convergent regardless of the order of its terms).
+
+\subsubsection*{Example}
+Now, consider again on \(\mathbb{N}\), the counting measure \(\mu\). Let \(f(x) = \dfrac{(-1)^n}{2^n}\). Then, \(f \in L^1(\mathbb{N}, \mu)\) since:
+\[\int_{\mathbb{N}} |f| \,d\mu = \sum_{n=1}^{\infty} \left|\frac{(-1)^n}{2^n}\right| = \sum_{n=1}^{\infty} \frac{1}{2^n} = 1 < \infty.\]
+
+\subsection{Corollary}
+\(L^1(\mu)\) is a vector space, that is if \(f, g \in L^1(\mu)\) and \(\alpha, \beta \in \mathbb{R}\), then:
+\[\alpha f + \beta g \in L^1(\mu), \quad \text{and} \quad \int_X (\alpha f + \beta g) \,d\mu = \alpha \int_X f \,d\mu + \beta \int_X g \,d\mu.\]
+
+\subsubsection*{Remark}
+If \(f \in L^1(\mu)\), then:
+\[|f| \in L^1(\mu) \text{ and } \left|\int_X f \,d\mu\right| \leq \int_X |f| \,d\mu\].
+
+\subsection{Theorem: Monotone Convergence}
+Consider a sequence of measurable functions \(\{f_n\}_{n=1}^{\infty}\) such that:
+\begin{enumerate}
+    \item \(0 \leq f_n(x) \leq f_{n+1}(x) \leq \infty\) for all \(x \in X\) and \(n \in \mathbb{N}\).
+    \item \(\lim_{n \to \infty} f_n(x) = f(x)\) for all \(x \in X\).
+\end{enumerate}
+Then:
+\[\int_X f(x) \,d\mu = \int_X \lim_{n \to \infty} f_n(x) \,d\mu = \lim_{n \to \infty} \int_X f_n(x) \,d\mu.\]
+
+This integral may be infinite.
+
+\subsubsection*{Example}
+On \(X = [0, \infty]\), we define
+\[f_n(x) = \begin{cases}
+    1 - x^n & \text{if } 0 \leq x < 1, \\
+    0 & \text{if } 1 \leq x 
+\end{cases}\]
+for \(n \in \mathbb{N}\). Then, 
+\[0 \leq f_n(x) \leq f_{n+1}(x) \leq 1 \text{ for all } x \in [0, \infty]\]
+and
+\[\lim_{n \to \infty} f_n(x) = \begin{cases}
+    1 & \text{if } 0 \leq x < 1, \\
+    0 & \text{if } 1 \leq x 
+\end{cases} = f(x).\]
+Thus, by the Monotone Convergence Theorem:
+\[\int_0^{\infty} f(x) \,dm = \int_0^{\infty} \lim_{n \to \infty} f_n(x) \,dm = \lim_{n \to \infty} \int_0^{\infty} f_n(x) \,dm.\]
+Now, we compute:
+\[\int_0^{\infty} f_n(x) \,dm = \int_0^1 (1 - x^n) \,dm = \left[x - \frac{x^{n+1}}{n+1}\right]_0^1 = 1 - \frac{1}{n+1} = \frac{n}{n+1}.\]
+Thus:
+\[\int_0^{\infty} f(x) \,dm = \lim_{n \to \infty} \frac{n}{n+1} = 1.\]  
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = \(x\),
+            ylabel = {\(f_n(x)\)},
+            ymin = -0.2, ymax = 1.2,
+            xmin = -0.2, xmax = 1.5,
+            width=10cm,
+            height=6cm
+        ]
+        % f_1
+        \addplot[
+            domain=0:1.5, 
+            samples=100, 
+            color=red,
+            thick
+        ]{max(1 - x, 0)};
+
+        \addplot[
+            domain=0:1.5, 
+            samples=100, 
+            color=blue,
+            thick
+        ]{max(1 - x^2, 0)};
+        % f_3
+        \addplot[
+            domain=0:1.5, 
+            samples=100, 
+            color=green,
+            thick
+        ]{max(1 - x^3, 0)};
+        % Add legend
+        \legend{\(f_1(x)\),\(f_2(x)\),\(f_3(x)\)}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsubsection*{Example}
+Now consider the sequence of functions
+\[f_n(x) = \begin{cases}
+    2^n & \text{if } 0 \leq x < \frac{1}{2^n}, \\
+    0 & \text{if } \frac{1}{2^n} \leq x 
+\end{cases}\]
+for \(n \in \mathbb{N}\). Then,
+\[0 \leq f_n(x) \leq f_{n+1}(x) \leq \infty \text{ for all } x \in [0, \infty]\]
+and
+\[\lim_{n \to \infty} f_n(x) = 0 \text{ for all } x \in [0, \infty].\]
+Thus, by the Monotone Convergence Theorem:
+\[\int_0^{\infty} f(x) \,dm = \int_0^{\infty} \lim_{n \to \infty} f_n(x) \,dm = \lim_{n \to \infty} \int_0^{\infty} f_n(x) \,dm.\]
+Now, we compute:
+\[\int_0^{\infty} f_n(x) \,dm = \int_0^{\frac{1}{2^n}} 2^n \,dm = 2^n \cdot \frac{1}{2^n} = 1.\]
+Thus:
+\[\int_0^{\infty} f(x) \,dm = \lim_{n \to \infty} 1 = 1.\]
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = \(x\),
+            ylabel = {\(f_n(x)\)},
+            ymin = -0.2, ymax = 2.5,
+            xmin = -0.2, xmax = 1.5,
+            width=10cm,
+            height=6cm
+        ]
+        % f_1
+        \addplot[
+            domain=0:1, 
+            samples=100, 
+            color=red,
+            thick
+        ]{(x < 0.5) * 2 + (x >= 0.5) * 0};
+        % f_2
+        \addplot[
+            domain=0:1, 
+            samples=100, 
+            color=blue,
+            thick
+        ]{(x < 0.25) * 4 + (x >= 0.25) * 0};
+        % f_3
+        \addplot[
+            domain=0:1, 
+            samples=100, 
+            color=green,
+            thick
+        ]{(x < 0.125) * 8 + (x >= 0.125) * 0};
+        % Add legend
+        \legend{\(f_1(x)\),\(f_2(x)\),\(f_3(x)\)}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsubsection{Proof of the Monotone Convergence Theorem}
+We know that:
+\[\left\{\int_X f_n(x) \,d\mu\right\}_{n=1}^{\infty}\]
+is an increasing sequence, since \(f_n(x) \leq f_{n+1}(x)\) for all \(x \in X\). Thus, the limit:
+\[\lim_{n \to \infty} \int_X f_n(x) \,d\mu\]
+exists (possibly infinite). Also, since \(f_n(x) \leq f_{n+1}(x)\) for all \(x \in X\), we have:  
+\[\int_X f_n(x) \,d\mu \leq \int_X f_{n+1}(x) \,d\mu \quad \text{for all } n \in \mathbb{N},\]
+and 
+\[\lim_{n \to \infty} \int_X f_n(x) \,d\mu \leq \int_X f(x) \,d\mu.\]
+
+To prove the reverse inequality, consider an increasing sequence of simple functions approximating each \(f_n\):
+\[r_{1,1}, r_{1,2}, \ldots, r_{1,k_1} \nearrow f_1,\]
+\[r_{2,1}, r_{2,2}, \ldots, r_{2,k_2} \nearrow f_2,\]
+\[\vdots\]
+\[r_{n,1}, r_{n,2}, \ldots, r_{n,k_n} \nearrow f_n.\]
+Define a new sequence of simple functions \(\{s_m\}_{m=1}^{\infty}\) as follows:
+\[s_m = \max\{r_{n,k} : n, k \leq m\}.\]
+Then, \(s_m \nearrow f\) as \(m \to \infty\). Thus:
+\[\int_X f(x) \,d\mu = \lim_{m \to \infty} \int_X s_m(x) \,d\mu \leq \lim_{n \to \infty} \int_X f_n(x) \,d\mu. \qed\]
 \end{document}
