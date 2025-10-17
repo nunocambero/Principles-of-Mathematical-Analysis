@@ -1327,4 +1327,51 @@ Define a new sequence of simple functions \(\{s_m\}_{m=1}^{\infty}\) as follows:
 \[s_m = \max\{r_{n,k} : n, k \leq m\}.\]
 Then, \(s_m \nearrow f\) as \(m \to \infty\). Thus:
 \[\int_X f(x) \,d\mu = \lim_{m \to \infty} \int_X s_m(x) \,d\mu \leq \lim_{n \to \infty} \int_X f_n(x) \,d\mu. \qed\]
+
+\subsection{Corollary}
+For a sequence of positive measurable functions \(\{f_n\}_{n=1}^{\infty}\):
+\[f(x) = \sum_{n=1}^{\infty} f_n(x) \quad \text{for all } x \in X,\]
+we have:
+\[\int_X f(x) \,d\mu = \sum_{n=1}^{\infty} \int_X f_n(x) \,d\mu.\]
+
+\begin{proof}
+Define the sequence of functions:
+\[s_k(x) = \sum_{n=1}^{k} f_n(x) \quad \text{for } k \in \mathbb{N}.\]
+Then, \(s_k(x) \nearrow f(x)\) as \(k \to \infty\). Thus, by the Monotone Convergence Theorem:
+\[\int_X f(x) \,d\mu = \lim_{k \to \infty} \int_X s_k(x) \,d\mu = \lim_{k \to \infty} \sum_{n=1}^{k} \int_X f_n(x) \,d\mu = \sum_{n=1}^{\infty} \int_X f_n(x) \,d\mu. \qed\]
+\end{proof}
+\subsection{Fatou's Lemma}
+Let \(\{f_n\}_{n=1}^{\infty}\) be a sequence of non-negative measurable functions on \(X\). Then:
+\[\int_X \liminf_{n \to \infty} f_n(x) \,d\mu \leq \liminf_{n \to \infty} \int_X f_n(x) \,d\mu.\]
+\begin{proof}
+Define the sequence of functions:
+\[g_n(x) = \inf_{k \geq n} f_k(x) \quad \text{for } n \in \mathbb{N}.\]
+Then, \(g_n(x) \nearrow \liminf_{n \to \infty} f_n(x)\) as \(n \to \infty\). Thus, by the Monotone Convergence Theorem:
+\[\int_X \liminf_{n \to \infty} f_n(x) \,d\mu = \lim_{n \to \infty} \int_X g_n(x) \,d\mu.\]
+Also, since \(g_n(x) \leq f_n(x)\) for all \(x \in X\) and \(n \in \mathbb{N}\), we have:
+\[\int_X g_n(x) \,d\mu \leq \int_X f_n(x) \,d\mu \quad \text{for all } n \in \mathbb{N}.\]
+Thus:
+\[\lim_{n \to \infty} \int_X g_n(x) \,d\mu \leq \liminf_{n \to \infty} \int_X f_n(x) \,d\mu. \qed\]
+\end{proof}
+
+\subsubsection*{Example}
+Consider the sequence of functions:
+\[f_n(x) = \begin{cases}
+    \chi_{[0, 1]} (x) & \text{if } n \text{ is odd}, \\
+    1 - \chi_{[0, 1]} (x) & \text{if } n \text{ is even}.
+\end{cases}\]
+Then, for all \(x \in \mathbb{R}\):
+\[\liminf_{n \to \infty} f_n(x) = 0.\]
+Thus:
+\[\int_{\mathbb{R}} \liminf_{n \to \infty} f_n(x) \,dm = \int_{\mathbb{R}} 0 \,dm = 0.\]
+On the other hand:
+\[\int_{\mathbb{R}} f_n(x) \,dm = \begin{cases}
+    1 & \text{if } n \text{ is odd}, \\
+    \infty & \text{if } n \text{ is even}.
+\end{cases}\]
+Thus:
+\[\liminf_{n \to \infty} \int_{\mathbb{R}} f_n(x) \,dm = 0.\]
+Therefore, Fatou's Lemma holds:
+\[\int_{\mathbb{R}} \liminf_{n \to \infty} f_n(x) \,dm = 0 \leq 0 = \liminf_{n \to \infty} \int_{\mathbb{R}} f_n(x) \,dm.\] 
+
 \end{document}
