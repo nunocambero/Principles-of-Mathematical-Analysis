@@ -935,7 +935,7 @@ The Lebesgue measure \(m\) on \(\mathbb{R}^n\) is a Radon measure. What are the 
 \subsubsection{Theorem: Characterization of Radon Measures on \(\mathbb{R}^n\)}
 The Lebesgue measure \(m\) is the unique translation-invariant Radon measure on \(\mathbb{R}^n\) (up to a multiplicative constant).  
 \begin{enumerate}
-    \item \(\mathbb{R}^n, \mathcal{M}, m)\) is translation-invariant, i.e., for any \(A \in \mathcal{M}\) and any \(x \in \mathbb{R}^n\):
+    \item \((\mathbb{R}^n, \mathcal{M}, m)\) is translation-invariant, i.e., for any \(A \in \mathcal{M}\) and any \(x \in \mathbb{R}^n\):
     \[m(A + x) = m(A),\]
     where \(A + x = \{a + x : a \in A\}\).
     \item If \(\mu : \mathcal{M} \to [0, \infty]\) is another translation-invariant Radon measure on \(\mathbb{R}^n\), then there exists a constant \(k > 0\) such that:
@@ -1132,7 +1132,7 @@ Both \(f^+\) and \(f^-\) are non-negative measurable functions.
             domain=-1:3, 
             samples=100, 
             color=blue,
-            thick thick
+            very thick
         ]{0.5*sin(deg(x)) + 0.5*cos(deg(2*x)) + 0.3*sin(deg(3*x))};
         % f^+
         \addplot[
@@ -1145,7 +1145,7 @@ Both \(f^+\) and \(f^-\) are non-negative measurable functions.
         \addplot[
             domain=-1:3, 
             samples=100, 
-            color=green,
+            color=orange,
             thick
         ]{max(0, -(0.5*sin(deg(x)) + 0.5*cos(deg(2*x)) + 0.3*sin(deg(3*x))))};
         % Add legend
