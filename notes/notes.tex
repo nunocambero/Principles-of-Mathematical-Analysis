@@ -885,7 +885,7 @@ There exists a unique measure space \((\mathbb{R}^n, \mathcal{M}, m)\) such that
 \[\mathcal{M} = \overline{\mathcal{B}(\mathbb{R}^n)} \quad \text{and} \quad m|_{\mathcal{E}} = \mu_0.\]
 In particular, 
 \begin{enumerate}
-    \item \(\forall M \in \mathcal{M}, M = B \cup N\) where \(B \in \mathcal{B}(\mathbb{R}^n)\) and \(N\) is a null set, i.e., \(m(N) = 0\).
+    \item \(\forall M \in \mathcal{M}, m = B \cup N\) where \(B \in \mathcal{B}(\mathbb{R}^n)\) and \(N\) is a null set, i.e., \(m(N) = 0\).
     \item \(\forall N \in \mathcal{M}\) with \(m(N) = 0\), there exists \(B \in \mathcal{B}(\mathbb{R}^n)\) such that \(N \subseteq B\) and \(m(B) = 0\).
 \end{enumerate}
 
@@ -1373,5 +1373,81 @@ Thus:
 \[\liminf_{n \to \infty} \int_{\mathbb{R}} f_n(x) \,dm = 0.\]
 Therefore, Fatou's Lemma holds:
 \[\int_{\mathbb{R}} \liminf_{n \to \infty} f_n(x) \,dm = 0 \leq 0 = \liminf_{n \to \infty} \int_{\mathbb{R}} f_n(x) \,dm.\] 
+
+\subsection{Theorem: Dominated Convergence}
+Let \(\{f_n\}_{n=1}^{\infty}\) be a sequence of measurable functions on \(X\) such that:
+\begin{enumerate}
+    \item \(\lim_{n \to \infty} f_n(x) = f(x)\) for all \(x \in X\).
+    \item There exists a function \(g \in L^1(X, \mu)\) such that \(|f_n(x)| \leq g(x)\) for all \(x \in X\) and \(n \in \mathbb{N}\).
+\end{enumerate}
+Then:
+\[\int_X f(x) \,d\mu = \lim_{n \to \infty} \int_X f_n(x) \,d\mu, \quad f \in L^1(X, \mu) \quad \text{and} \quad \lim_{n \to \infty} \int_X |f_n(x) - f(x)| \,d\mu = 0.\]
+\vskip 1em
+\begin{proof}
+Each \(f_n \in L^1(\mu)\), and so is \(f\), since:
+\[|f(x)| = \lim_{n \to \infty} |f_n(x)| \leq g(x) \quad \text{for all } x \in X.\]
+Also, since:
+\[|f_n(x) - f(x)| \leq |f_n(x)| + |f(x)| \leq g(x) + g(x) = 2g(x) \quad \text{for all } x \in X,\]
+we have:
+\[2g(x) - |f_n(x) - f(x)| \geq 0 \quad \text{for all } x \in X.\]
+Thus, by Fatou's Lemma:
+\[\int_X \liminf_{n \to \infty} \left(2g(x) - |f_n(x) - f(x)|\right) \,d\mu \leq \liminf_{n \to \infty} \int_X \left(2g(x) - |f_n(x) - f(x)|\right) \,d\mu.\]
+Now, since:
+\[\liminf_{n \to \infty} \left(2g(x) - |f_n(x) - f(x)|\right) = \int_X 2g(x) - \limsup_{n \to \infty} |f_n(x) - f(x)| = 2g(x) - 0 = 2g(x),\]
+we have:
+\[\int_X 2g(x) \,d\mu \leq \liminf_{n \to \infty} \left(2\int_X g(x) \,d\mu - \int_X |f_n(x) - f(x)| \,d\mu\right).\]
+Thus:
+\[\limsup_{n \to \infty} \int_X |f_n(x) - f(x)| \,d\mu \leq 0.\]
+Since the integral is non-negative, we conclude that:
+\[\lim_{n \to \infty} \int_X |f_n(x) - f(x)| \,d\mu = 0.\]
+Finally, by the triangle inequality:
+\[\left|\int_X f_n(x) \,d\mu - \int_X f(x) \,d\mu\right| \leq \int_X |f_n(x) - f(x)| \,d\mu,\]
+we have:
+\[\lim_{n \to \infty} \left|\int_X f_n(x) \,d\mu - \int_X f(x) \,d\mu\right| = 0.\]
+\end{proof}
+
+\subsubsection*{Example}
+Let us consider:
+\[\lim_{n \to \infty} \int_0^1 \frac{\log(n + x)}{n} \cdot \sin(x) \,dx.\]
+We have:
+\[|f_n(x)| = \left|\frac{\log(n + x)}{n} \cdot \sin(x)\right| \leq \left|\frac{\log(n + x)}{n}\right| \leq 1 \in L^1([0, 1]).\]
+So with \(g(x) = 1\), we can apply the Dominated Convergence Theorem:
+\[\lim_{n \to \infty} \int_0^1 \frac{\log(n + x)}{n} \cdot \sin(x) \,dx = \int_0^1 \lim_{n \to \infty} \frac{\log(n + x)}{n} \cdot \sin(x) \,dx = \int_0^1 0 \cdot \sin(x) \,dx = 0.\]  
+
+\subsection{Corollary: Uniform Convergence}
+Let \(X, \mathcal{A}, \mu\) be a \underline{finite} measure space, that is, \(\mu(X) < \infty\). If a sequence of measurable functions \(\{f_n\}_{n=1}^{\infty}\) converges \underline{uniformly} to a function \(f\) on \(X\), then \(f \in L^1(X, \mu)\) and:
+\[\lim_{n \to \infty} \int_X f_n(x) \,d\mu = \int_X f(x) \,d\mu.\]
+
+\begin{proof}
+The limit of \(f(x)\) satisfies:    
+\[\inf_n |f_n(x)| \leq |f(x)| \leq \sup_n |f_n(x)| \quad \text{for all } x \in X.\]
+Since \(f_n \in L^1(\mu)\), \(f\) is also integrable. Besides, by the uniform convergence:
+\[\exists N \in \mathbb{N} : |f_n(x) - f(x)| < \epsilon \text{ for all } n \geq N \text{ and } x \in X.\]
+Also:
+\[|f_n(x)| \leq |f(x)| + \epsilon \implies \int_X |f_n(x)| \,d\mu \leq \int_X |f(x)| \,d\mu + \epsilon \mu(X) < \infty.\]
+Thus, by the Dominated Convergence Theorem:
+\[\lim_{n \to \infty} \int_X f_n(x) \,d\mu = \int_X f(x) \,d\mu.\]
+\end{proof}
+
+\subsection{Corollary}
+Let \(X, \mathcal{A}, \mu\) be a measure space and \(f_n: X \to \mathbb{R}\) be a sequence of measurable functions such that:
+\[\sum_{n=1}^{\infty} \int_X |f_n(x)| \,d\mu < \infty.\]
+Then \(f \in L^1(X, \mu)\),
+\[\sum_{n=1}^{\infty} f_n(x) \text{ converges to } f : X \to \mathbb{R},\]
+and
+\[\int_X f(x) \,d\mu = \sum_{n=1}^{\infty} \int_X f_n(x) \,d\mu.\]
+
+\begin{proof}
+Define:
+\[g_N(x) = \sum_{n=1}^{N} f_n(x)\]
+Then:
+\[\int_X |g_N(x)| \,d\mu \leq \sum_{n=1}^{N} \int_X |f_n(x)| \,d\mu \leq \sum_{n=1}^{\infty} \int_X |f_n(x)| \,d\mu < \infty.\]
+Thus, \(g_N \in L^1(X, \mu)\) for all \(N \in \mathbb{N}\). Now, 
+\[\sum_{n=1}^{\infty} \int_X f_n(x) \,d\mu = \int_X \sum_{n=1}^{\infty} f_n(x) \,d\mu,\]
+and finally:
+\[\lim_{N \to \infty} \sum_{n=1}^{N} \int_X f_n(x) \,d\mu = \int_X \lim_{N \to \infty} g_N(x) \,dx.\]
+\end{proof}
+
+
 
 \end{document}
