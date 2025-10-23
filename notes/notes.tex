@@ -161,9 +161,7 @@ Let
 \[f_n(x) = \begin{cases} x^n & \text{if } 0 \leq x < 1, \\ 0 & \text{if } 1 \leq x. \end{cases}\]
 
 Then, with $f_n(x)$ continuous on $\mathbb{R}$, we have:
-
-\[\lim_{n \to \infty} f_n(x) = \begin{cases} 0 & \text{if } 0 \leq x < 1, \\ 1 & \text{if } x \leq 1. \end{cases}\]
-
+\[\lim_{n \to \infty} f_n(x) = \begin{cases} 1 & \text{if } 0 \leq x < 1, \\ 0 & \text{if } 1 \leq x. \end{cases}\]
 so we can see that there is a discontinuity at \(x = 1\).
 
 \begin{center}
@@ -243,14 +241,12 @@ We need to define a new kind of convergence.
 A sequence of functions \(\{f_n\}_{n \in \mathbb{N}}\) converges punctually to a function \(f\) on \(Dom(f)\) if:
 \[\lim_{n \to \infty} f_n(x) = f(x), \quad \forall x \in Dom(f).\]
 
-\[\forall \varepsilon > 0, \quad \forall x \in Dom(f), \quad \exists N (\varepsilon, x) \in \mathbb{N} : n > N \implies |f_n(x) - f(x)| < \varepsilon.\]
-
 A sequence of functions \(\{f_n\}_{n \in \mathbb{N}}\) converges uniformly to a function \(f\) on \(Dom(f)\) if:
 \[\forall \varepsilon, \quad \exists N : n > N \implies |f_n(x) - f(x)| < \varepsilon, \quad \forall x \in Dom(f).\]
 
 \subsubsection*{Example}
 Let
-\[f_n(x) = \frac{1}{n} \sin(nx), \quad x \in \mathbb{R}. \rightarrow^{n\to\infty} f(x) = 0.\]
+\[f_n(x) = \frac{1}{n} \sin(nx), \quad x \in \mathbb{R} \stackrel{n \to \infty}{\longrightarrow} 0.\]
 
 \begin{center}
 \begin{tikzpicture}
@@ -595,7 +591,7 @@ Consider two topological spaces \((Y, \mathcal{T}_Y)\) and \((Z, \mathcal{T}_Z)\
 \end{center}
 
 \begin{proof}
-Consider any open set \(V \in \mathcal{T}_Z\). Since \(g\) is continuous, the preimage \(g^{-1}(V) \in \mathcal{T}_Y\) (it is also an open set, now in \(\mathbb{T}_Y\)). And then, \(f^{-1}(g^{-1}(V)) \in \mathcal{T}_X\) (that is, it is an open set in \(\mathbb{T}_X\)).
+Consider any open set \(V \in \mathcal{T}_Z\). Since \(g\) is continuous, the preimage \(g^{-1}(V) \in \mathcal{T}_Y\) (it is also an open set, now in \(\mathcal{T}_Y\)). And then, \(f^{-1}(g^{-1}(V)) \in \mathcal{T}_X\) (that is, it is an open set in \(\mathcal{T}_X\)).
     Observe that the preimage of \(g^{-1}(V)\) under \(f\) is:
     \[h^{-1}(V) = (g \circ f)^{-1}(V) = f^{-1}(g^{-1}(V)).\]
 
@@ -885,7 +881,7 @@ There exists a unique measure space \((\mathbb{R}^n, \mathcal{M}, m)\) such that
 \[\mathcal{M} = \overline{\mathcal{B}(\mathbb{R}^n)} \quad \text{and} \quad m|_{\mathcal{E}} = \mu_0.\]
 In particular, 
 \begin{enumerate}
-    \item \(\forall M \in \mathcal{M}, m = B \cup N\) where \(B \in \mathcal{B}(\mathbb{R}^n)\) and \(N\) is a null set, i.e., \(m(N) = 0\).
+    \item \(\forall M \in \mathcal{M}, M = B \cup N\) where \(B \in \mathcal{B}(\mathbb{R}^n)\) and \(N\) is a null set, i.e., \(m(N) = 0\).
     \item \(\forall N \in \mathcal{M}\) with \(m(N) = 0\), there exists \(B \in \mathcal{B}(\mathbb{R}^n)\) such that \(N \subseteq B\) and \(m(B) = 0\).
 \end{enumerate}
 
@@ -1182,7 +1178,7 @@ Now, consider again on \(\mathbb{N}\), the counting measure \(\mu\). Let \(f(x) 
 
 \subsubsection*{Remark}
 If \(f \in L^1(\mu)\), then:
-\[|f| \in L^1(\mu) \text{ and } \left|\int_X f \,d\mu\right| \leq \int_X |f| \,d\mu\].
+\[|f| \in L^1(\mu) \text{ and } \left|\int_X f \,d\mu\right| \leq \int_X |f| \,d\mu.\]
 
 \subsection{Theorem: Monotone Convergence}
 Consider a sequence of measurable functions \(\{f_n\}_{n=1}^{\infty}\) such that:
