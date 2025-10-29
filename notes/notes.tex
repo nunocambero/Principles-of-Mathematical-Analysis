@@ -1444,6 +1444,212 @@ and finally:
 \[\lim_{N \to \infty} \sum_{n=1}^{N} \int_X f_n(x) \,d\mu = \int_X \lim_{N \to \infty} g_N(x) \,dx.\]
 \end{proof}
 
+\section{Integration on Product Spaces}
+Let \((X, \mathcal{A}, \mu)\) and \((Y, \mathcal{D}, \lambda)\) be two measure spaces. If
+\[X \times Y = \{(x, y) : x \in X, y \in Y\},\]
+we define the product \(\sigma\)-algebra \(\mathcal{A} \otimes \mathcal{D}\) as:
+\[\mathcal{A} \otimes \mathcal{D} = \sigma (\mathcal{E}),\]
+where:
+\[\mathcal{E} = \{A \times D : A \in \mathcal{A}, D \in \mathcal{D}\}.\]
+
+\subsection{Theorem: Product Measure}
+There exists a unique measure \(\mu \otimes \lambda : \mathcal{A} \otimes \mathcal{D} \to [0, \infty]\) such that:
+\[(\mu \otimes \lambda)(A \times D) = \mu(A) \cdot \lambda(D) \quad \text{for all } A \in \mathcal{A}, D \in \mathcal{D}.\]
+
+\subsection{Product Measure Space}
+The \textit{Product Measure Space} of \((X, \mathcal{A}, \mu)\) and \((Y, \mathcal{D}, \lambda)\) is the measure space:
+\[(X \times Y, \mathcal{A} \otimes \mathcal{D}, \mu \otimes \lambda).\]
+
+\subsubsection{Proposition}
+The product measure space of the Lebesgue measure spaces \(\mathbb{R}^k\) and \(\mathbb{R}^{n-k}\) \((k < n)\), is the Lebesgue measure space \(\mathbb{R}^n\).
+
+\subsubsection*{Observation}
+We are going to consider in this section only \(\sigma\)-finite measure spaces.
+
+\subsection{Sections of a Set}
+If we consider a set \(E \subset X \times Y\), the \textit{sections} of \(E\) are defined as:
+\[E_x = \{y \in Y : (x, y) \in E\} \quad \text{for } x \in X \quad \text{and} \quad E^y = \{x \in X : (x, y) \in E\} \quad \text{for } y \in Y.\]
+
+\subsubsection{Sections of a Function}
+If we consider a function \(f: X \times Y \to \overline{\mathbb{R}}\), the \textit{sections} of \(f\) are defined as:
+\[f_x(y) = f(x, y) \quad \text{for } x \in X \quad \text{and} \quad f^y(x) = f(x, y) \quad \text{for } y \in Y.\]
+
+\subsubsection{Proposition}
+\begin{enumerate}
+    \item If \(E \in \mathcal{A} \otimes \mathcal{D}\), then \(E_x \in \mathcal{D}\) for all \(x \in X\) and \(E^y \in \mathcal{A}\) for all \(y \in Y\).
+    \item If \(f: X \times Y \to \overline{\mathbb{R}}\) is \(\mathcal{A} \otimes \mathcal{D}\)-measurable, then \(f_x: Y \to \overline{\mathbb{R}}\) is \(\mathcal{A} \otimes \mathcal{D}\)-measurable and \(f^y: X \to \overline{\mathbb{R}}\) is \(\mathcal{A} \otimes \mathcal{D}\)-measurable.
+\end{enumerate}
+
+\subsection{Cavalieri's Principle}
+Let \(E \in \mathcal{A} \otimes \mathcal{D}\). Then:
+\begin{enumerate}
+    \item The function \(g(x) = \lambda(E_x)\) is \(\mathcal{A}\)-measurable and:
+        \[\int_X g(x) \,d\mu = (\mu \otimes \lambda)(E).\]
+    \item The function \(h(y) = \mu(E^y)\) is \(\mathcal{D}\)-measurable and:
+        \[\int_Y h(y) \,d\lambda = (\mu \otimes \lambda)(E).\]
+\end{enumerate}
+
+\subsubsection*{Example}
+Consider the set:
+\[E = \{(x, y) : x \in [0, 2], y \in [x^3, x] \} \subset \mathbb{R} \times \mathbb{R}.\]
+Then, 
+\[m_x \otimes m_y (E) = \int_{[1, 2]} m_y(E_x) \,dm_x = \int_{[1, 2]} 2x \,dm_x = \left[x^2\right]_{1}^{2} = 4 - 1 = 3.\]
+
+\subsection{Theorem: Fubini-Tonelli}
+Let \(f: X \times Y \to [0, \infty]\) be a \underline{positive measurable} function. Then:
+\begin{enumerate}
+    \item The function \(F(x) = \int_Y f_x \,d\lambda\) is \(\mathcal{A}\)-measurable and:
+        \[\int_{X} F(x) \,d\mu = \int_{X \times Y} f(x, y) \,d(\mu \otimes \lambda).\]
+    \item The function \(G(y) = \int_X f^y \,d\mu\) is \(\mathcal{D}\)-measurable and:
+        \[\int_{X \times Y} f(x, y) \,d(\mu \otimes \lambda) = \int_Y G(y) \,d\lambda.\]
+\end{enumerate}
+
+So we can integrate in the order we want.
+
+\begin{proof}
+For simple positive functions, Fubini-Tonelli's theorem is Cavalieri's Principle. Now, let \(f\) be a positive measurable function. Then, there exists an increasing sequence of simple functions \(\{s_n\}_{n=1}^{\infty}\) such that:
+\[s_n(x, y) \nearrow f(x, y) \quad \text{for all } (x, y) \in X \times Y.\]
+Thus, for each one of the simple functions \(s_n\):
+\[\int_X \int_Y s_{n, x} \,d\lambda \,d\mu = \int_{X \times Y} s_n \,d(\mu \otimes \lambda) \]
+and by the Monotone Convergence Theorem:
+\[\int_X \left(\lim_{n \to \infty} \int_Y s_{n, x} \,d\lambda\right) d\mu = \lim_{n \to \infty} \int_{X \times Y} s_n \,d(\mu \otimes \lambda) = \int_{X \times Y} f(x, y) \,d(\mu \otimes \lambda).\]
+Similarly, for \(f^y\), we have:
+\[\int_Y \left(\lim_{n \to \infty} \int_X s_n^y \,d\mu\right) d\lambda = \lim_{n \to \infty} \int_{X \times Y} s_n \,d(\mu \otimes \lambda) = \int_{X \times Y} f(x, y) \,d(\mu \otimes \lambda).\]
+So they are equal (Tonelli's theorem).
+
+Now, if \(f \in L^1(X \times Y, \mu \otimes \lambda)\), we consider the positive and negative parts of \(f\):
+\[f^+(x, y) = \max\{f(x, y), 0\},\]
+\[f^-(x, y) = \max\{-f(x, y), 0\}.\]
+Both \(f^+\) and \(f^-\) are positive measurable functions, and we can apply Tonelli's theorem to both of them.
+\end{proof}
+
+\subsubsection*{Example}
+Consider \(X = Y = [0, 1]\), with \(\mu, \lambda\) being the Lebesgue measures. Consider the sequence:
+\[0 < \delta_1 < \delta_2 < \ldots < \delta_n < 1\]
+and define the continuous functions \(g_n\) with support in \((\delta_n, \delta_{n+1})\), i.e \(g_n(x) = 0\) for \(x \notin (\delta_n, \delta_{n+1})\), such that:
+\[\int_0^1 g_n(x) \,dx = 1.\]
+Now, define the function:
+\[f(x, y) = \sum_{n=1}^{\infty} \left(g_n(x) - g_{n-1}(x)\right) g_n(y).\]
+Observe that the support of each term is disjoint, only one term is non-zero for each \((x, y) \in [0, 1] \times [0, 1]\). Thus, \(f\) is well-defined and measurable. Now, we compute:
+\[\int_0^1 \,dx \int_0^1 f(x, y) \,dy = \int_0^1 \,dx = 1.\]
+On the other hand, we have:
+\[\int_0^1 \,dy \int_0^1 f(x, y) \,dx = \int_0^1 0 \,dy = 0.\]
+This happens because the integral of \(g_n(x) - g_{n-1}(x)\) with respect to the Lebesgue measure \(dx\) is zero for all \(n\).
+In this case, \(f \notin L^1([0, 1] \times [0, 1])\), because:
+\[\int_0^1 \,dx \int_0^1 |f(x, y)| \,dy = \infty.\]
+
+\subsubsection*{Example}
+Prove that:
+\[e^{-x^2} \in L^1(\mathbb{R}),\]
+and compute its integral.
+\begin{center}
+\begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = \(x\),
+            ylabel = {\(e^{-x^2}\)},
+            ymin = -0.2, ymax = 1.2,
+            xmin = -3, xmax = 3,
+            width=10cm,
+            height=6cm
+        ]
+        % e^(-x^2)
+        \addplot[
+            domain=-3:3, 
+            samples=100, 
+            color=blue,
+            thick
+        ]{exp(-x^2)};
+        \addplot[
+            domain=-3:3, 
+            samples=100, 
+            color=red,
+            thick,
+        ]{exp(-x)};
+        % Add legend
+        \legend{\(e^{-x^2}\), \(e^{-x}\)}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\begin{proof}
+On \([0, 1]\), \(e^{-x^2}\) is continuous and bounded, so 
+\[\int_0^1 \left|e^{-x^2}\right| \,dx \leq \int_0^1 1 \,dx = 1 \implies e^{-x^2} \in L^1([0, 1]).\]
+On \([1, \infty)\), we have:
+\[0 < e^{-x^2} \leq e^{-x} \quad \text{ and } \quad \int_1^{\infty} e^{-x} \,dx = \lim_{N \to \infty} \int_1^{\infty} e^{-x} \chi_{[1, N]}(x) \,dx = \]
+\[= \lim_{N \to \infty} \int_1^{N} e^{-x} \,dx = \lim_{N \to \infty} \left[-e^{-x}\right]_1^{N} = \lim_{N \to \infty} \left(-e^{-N} + e^{-1}\right) = e^{-1} < \infty \implies e^{-x} \in L^1([1, \infty)).\]
+Thus, \(e^{-x^2} \in L^1([1, \infty)) \implies e^{-x^2} \in L^1([0, \infty))\).
+Now, 
+\[\int_{\mathbb{R}} e^{-x^2} \,dx = 2 \int_0^{\infty} e^{-x^2} \,dx. \implies e^{-x^2} \in L^1(\mathbb{R}).\]
+
+To compute the integral, we consider:
+\[I^2 = \left(\int_{\mathbb{R}} e^{-x^2} \,dx\right) \left(\int_{\mathbb{R}} e^{-y^2} \,dy\right) = \int_{\mathbb{R}} \int_{\mathbb{R}} e^{-(x^2 + y^2)} \,dx \,dy.\]
+Now, we change to polar coordinates:
+\[\int_0^{\infty} \int_0^{2\pi} e^{-r^2} r \,d\theta \,dr = 2\pi \int_0^{\infty} r e^{-r^2} \,dr = 2\pi \lim_{N \to \infty}\left[-\frac{e^{-r^2}}{2}\right]_0^{N} = \pi.\]
+Thus:
+\[\int_{\mathbb{R}} e^{-x^2} \,dx = \sqrt{\pi}.\]
+\end{proof}
+
+\subsection{Theorem: Fubini}
+Let \(f: X \times Y \to \overline{\mathbb{R}}\) be an \underline{\(\mathcal{A} \otimes \mathcal{D}\)-measurable} function. Then, the integrals:
+\[I_1 (f) = \int_{X \times Y} \left|f(x, y)\right| \,d\mu d\lambda,\]
+\[I_2 (f) = \int_X \,d\mu \int_Y \left|f(x, y)\right| \,d\lambda,\]
+\[I_3 (f) = \int_Y \,d\lambda \int_X \left|f(x, y)\right| \,d\mu.\]
+
+exist and are equal (they can be finite or infinite). Besides, if they are finite, that is, if \(f \in L^1(X \times Y, \mu \otimes \lambda)\), then:
+\[\int_{X \times Y} f(x, y) \,d(\mu \otimes \lambda) = \int_X \,d\mu \int_Y f(x, y) \,d\lambda = \int_Y \,d\lambda \int_X f(x, y) \,d\mu.\]
+
+\subsubsection*{Observation}
+The spaces \(X\) and \(Y\) must be \(\sigma\)-finite.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
